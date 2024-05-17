@@ -1,5 +1,6 @@
 const fs = require('fs');
 const http = require('http');
+const url = require('url');
 
 //////////////////////////////////////////////
 // FILES
@@ -31,3 +32,11 @@ const http = require('http');
 
 //////////////////////////////////////////////
 // Server
+const server = http.createServer((req , res) => {
+    console.log(req.url);
+    res.end('Hello From The Server !');
+});
+
+server.listen(8000 , '127.0.0.1' , () => {
+    console.log('Listening to Requests on Port 8000');
+});
