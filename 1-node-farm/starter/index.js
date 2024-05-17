@@ -32,9 +32,33 @@ const url = require('url');
 
 //////////////////////////////////////////////
 // Server
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json` , 'utf-8');
+const DataObj = JSON.parse(data);
+
 const server = http.createServer((req , res) => {
-    console.log(req.url);
-    res.end('Hello From The Server !');
+    const pathname = req.url;
+
+    // Overveiw Page
+    if (pathname === '/' || pathname === '/overview')
+        res.end('This is the Overview');
+
+    // Product Page
+    else if (pathname === '/product')
+        res.end('This is the Product');
+
+    // API Page
+    else if (pathname === '/api') {
+        res.writeHead(200, { 'Content-type' : 'application/json'});
+        res.end(data);
+
+    // Not Found
+    } else {
+        res.writeHead(404 , {
+            'Content-type' : 'text/html' ,
+            'my-own-header' : 'Hello World'
+        });
+        res.end('<h1>page Not Found !</h1>');
+    }
 });
 
 server.listen(8000 , '127.0.0.1' , () => {
